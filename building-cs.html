@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>مبنى علوم الحاسب</title>
+  <style>
+    :root {
+      --primary: #1f5fbf;
+      --card-bg: #ffffff;
+      --muted: #777;
+      --radius: 14px;
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: #fafafa;
+      font-family: "Cairo", "Tajawal", system-ui, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      direction: rtl;
+    }
+    .image-header {
+      position: relative;
+      width: 100%;
+      height: 280px;
+      overflow: hidden;
+    }
+    .header-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .back-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #333;
+      border: 0;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      transition: transform 0.16s ease;
+    }
+    .back-btn:hover {
+      transform: scale(1.05);
+    }
+    .container {
+      padding: 20px;
+      max-width: 920px;
+      margin: 0 auto;
+    }
+    .building-title {
+      font-size: 26px;
+      font-weight: 800;
+      margin-bottom: 24px;
+      color: #333;
+    }
+    .info-section {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: #333;
+    }
+    .description {
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .info-icon {
+      width: 24px;
+      height: 24px;
+      background: #eef6ff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+    .info-text {
+      font-size: 16px;
+      color: #333;
+    }
+    .map-container {
+      margin-top: 20px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .map-container img {
+      width: 100%;
+      display: block;
+    }
+    .action-button {
+      display: block;
+      width:30%;
+      padding: 20px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      margin: 50px auto 0; 
+      text-decoration: none;
+      transition: transform 0.16s ease, box-shadow 0.16s ease;
+    }
+    .action-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <!-- image header with back button -->
+  <div class="image-header">
+    <img src="photo_2025-11-06_21-15-05.jpg" alt="مبنى علوم الحاسب" class="header-image">
+    <a href="index.html" class="back-btn">←</a>
+  </div>
+
+ <h1 id="buildingTitle" class="building-title">مبنى علوم الحاسب</h1>
+    
+    <h2 id="aboutTitle" class="section-title">عن هذا المكان</h2>
+    <p id="aboutDesc" class="description">يضم معامل البرمجة وقاعات المحاضرات الخاصة بقسم علوم الحاسب ومكاتب الأساتذة والمعامل الذكية.</p>
+    
+    <h2 id="locTitle" class="section-title">الموقع</h2>
+    <p id="locDesc" class="description">المنطقة الأكاديمية - المنطقة C بجوار مبنى الهندسة</p>
+    
+    <div class="map-container">
+      <div class="map-image">
+        <img id="mapImage" src="photo_2025-10-24_04-27-13.jpg" alt="خريطة الموقع">
+      </div>
+
+    <a href="#" id="openMapBtn" class="action-button">افتح الموقع في الخريطة</a>
+    </div>
+  
+</body>
+</html>
+</html>

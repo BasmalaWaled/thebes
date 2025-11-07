@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>تفاصيل المبنى - خريطة الجامعة</title>
+
+<style>
+  :root{
+    --primary:#1f5fbf;
+    --card-bg:#ffffff;
+    --muted:#777;
+    --radius:14px;
+  }
+
+  html,body{
+    height:100%;
+    margin:0;
+    padding:0;
+    background:#fafafa;
+    font-family: "Cairo", "Tajawal", system-ui, Arial, sans-serif;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    direction: rtl;
+  }
+
+  /* Header */
+  .header{
+    background:var(--primary);
+    color:#fff;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    justify-content:space-between;
+  }
+  .header-left{ display:flex; align-items:center; gap:10px; }
+  .logo{
+    width:46px; height:46px; border-radius:50%;
+    background:#fff3; display:flex; align-items:center; justify-content:center;
+    box-shadow:0 1px 4px rgba(0,0,0,0.15);
+    flex-shrink:0;
+  }
+  .logo svg{ width:28px; height:28px; fill:#fff; opacity:0.95; }
+  .title{
+    font-size:18px;
+    font-weight:700;
+    line-height:1;
+  }
+  .subtitle{
+    font-size:12px;
+    opacity:0.95;
+    margin-top:2px;
+  }
+  .header-right{ display:flex; align-items:center; gap:14px; }
+  .back-btn {
+    background: transparent;
+    border: 0;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  /* Content */
+  .container{
+    padding:2px;
+    max-width:600px;
+    margin:0 auto;
+  }
+
+  /* Building details */
+  .building-image {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+  }
+  
+  .building-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .building-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+    padding: 16px 20px 10px;
+    color: #333;
+  }
+  
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+    padding: 16px 20px 4px;
+    color: #333;
+  }
+  
+  .building-description {
+    padding: 0 20px 16px;
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  
+  .location-info {
+    padding: 0 20px 16px;
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  
+  .map-container {
+    padding: 0 0 20px;
+    width: 100%;
+  }
+  
+  .map-image {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .map-image img {
+    width: 100%;
+    display: block;
+  }
+  
+  .map-button {
+    display: block;
+    background: var(--primary);
+    color: white;
+    text-align: center;
+    padding: 14px;
+    margin: 16px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    width: calc(100% - 40px);
+  }
+</style>
+</head>
+<body>
+
+
+  <!-- content -->
+  <main class="container">
+    <div class="building-image">
+      <img id="buildingImage" src="photo_2025-10-24_04-27-13.jpg" alt="صورة المبنى">
+    </div>
+    
+    <h1 id="buildingTitle" class="building-title">مبنى علوم الحاسب</h1>
+    
+    <h2 class="section-title">عن هذا المكان</h2>
+    <p id="buildingDescription" class="building-description">يضم معامل البرمجة وقاعات المحاضرات الخاصة بقسم علوم الحاسب ومكاتب الأساتذة والمعامل الذكية.</p>
+    
+    <h2 class="section-title">الموقع</h2>
+    <p id="buildingLocation" class="location-info">المنطقة الأكاديمية - المنطقة C بجوار مبنى الهندسة</p>
+    
+    <div class="map-container">
+      <div class="map-image">
+        <img id="mapImage" src="photo_2025-10-24_04-27-13.jpg" alt="خريطة الموقع">
+      </div>
+      <button id="openMapBtn" class="map-button">افتح الموقع في الخريطة</button>
+    </div>
+  </main>
+
+<script>
+  // استقبال معلومات المبنى من الـ URL
+  window.addEventListener('DOMContentLoaded', () => {
+    // الحصول على معرف المبنى من الـ URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const buildingId = urlParams.get('id');
+    
+    // إذا لم يتم تحديد معرف، استخدم القيم الافتراضية
+    if (!buildingId) {
+      return;
+    }
+    
+    // بيانات المباني (يمكن استبدالها بطلب API حقيقي)
+    const buildings = {
+      'computer-science': {
+        title: 'مبنى علوم الحاسب',
+        description: 'يضم معامل البرمجة وقاعات المحاضرات الخاصة بقسم علوم الحاسب ومكاتب الأساتذة والمعامل الذكية.',
+        location: 'المنطقة الأكاديمية - المنطقة C بجوار مبنى الهندسة',
+        image: 'photo_2025-11-06_21-15-05.jpg',
+        mapImage: 'photo_2025-10-24_04-27-13.jpg'
+      },
+      'engineering': {
+        title: 'مبنى الهندسة',
+        description: 'يحتوي على ورش العمل والمعامل المختلفة وقاعات المحاضرات الهندسية المتخصصة.',
+        location: 'المنطقة الأكاديمية - المنطقة C',
+        image: 'photo_2025-11-06_21-34-08.jpg',
+        mapImage: 'photo_2025-10-24_04-27-13.jpg'
+      },
+      'admin': {
+        title: 'المبنى الإداري',
+        description: 'يضم مكاتب الإدارة وشؤون الطلاب والتسجيل وقاعات الاجتماعات.',
+        location: 'المنطقة الإدارية - المدخل الرئيسي',
+        image: 'photo_2025-10-24_04-27-13.jpg',
+        mapImage: 'photo_2025-10-24_04-27-13.jpg'
+      },
+      'activities': {
+        title: 'مبنى الأنشطة الطلابية',
+        description: 'يضم قاعات الأنشطة والمسرح والصالات الرياضية ومراكز الأنشطة الطلابية.',
+        location: 'المنطقة الترفيهية - بجوار الملاعب',
+        image: 'photo_2025-10-24_04-27-13.jpg',
+        mapImage: 'photo_2025-10-24_04-27-13.jpg'
+      }
+    };
+    
+    // الحصول على بيانات المبنى المحدد
+    const building = buildings[buildingId];
+    if (building) {
+      // تحديث عناصر الصفحة بالبيانات
+      document.getElementById('buildingTitle').textContent = building.title;
+      document.getElementById('buildingDescription').textContent = building.description;
+      document.getElementById('buildingLocation').textContent = building.location;
+      document.getElementById('buildingImage').src = building.image;
+      document.getElementById('mapImage').src = building.mapImage;
+      document.title = building.title + ' - خريطة الجامعة';
+    }
+  });
+  
+  // زر فتح الموقع في الخريطة
+  document.getElementById('openMapBtn').addEventListener('click', () => {
+    // هنا يمكن إضافة رابط لخريطة حقيقية أو تطبيق خرائط
+    alert('سيتم فتح الموقع في الخريطة قريباً');
+  });
+</script>
+</body>
+</html>

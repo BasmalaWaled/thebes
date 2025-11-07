@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>تفاصيل الملعب</title>
+
+<style>
+  :root{
+    --primary:#1f5fbf;
+    --card-bg:#ffffff;
+    --muted:#777;
+    --radius:14px;
+  }
+
+  html,body{
+    height:100%;
+    margin:0;
+    padding:0;
+    background:#fafafa;
+    font-family: "Cairo", "Tajawal", system-ui, Arial, sans-serif;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    direction: rtl;
+  }
+
+  /* Header */
+  .header{
+    background:var(--primary);
+    color:#fff;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    justify-content:space-between;
+  }
+  .header-left{ display:flex; align-items:center; gap:10px; }
+  .logo{
+    width:46px; height:46px; border-radius:50%;
+    background:#fff3; display:flex; align-items:center; justify-content:center;
+    box-shadow:0 1px 4px rgba(0,0,0,0.15);
+    flex-shrink:0;
+  }
+  .logo svg{ width:28px; height:28px; fill:#fff; opacity:0.95; }
+  .title{
+    font-size:18px;
+    font-weight:700;
+    line-height:1;
+  }
+  .subtitle{
+    font-size:12px;
+    opacity:0.95;
+    margin-top:2px;
+  }
+  .header-right{ display:flex; align-items:center; gap:14px; }
+  .back-btn {
+    background: transparent;
+    border: 0;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  /* Content */
+  .container{
+    padding:0;
+    max-width:600px;
+    margin:0 auto;
+  }
+
+  /* Building details */
+  .building-image {
+    width: 100%;
+    height: 240px;
+    overflow: hidden;
+  }
+  
+  .building-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .building-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+    padding: 16px 20px 10px;
+    color: #333;
+  }
+  
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+    padding: 16px 20px 4px;
+    color: #333;
+  }
+  
+  .building-description {
+    padding: 0 20px 16px;
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  
+  .location-info {
+    padding: 0 20px 16px;
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  
+  .map-container {
+    padding: 0 0 20px;
+    width: 100%;
+  }
+  
+  .map-image {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .map-image img {
+    width: 100%;
+    display: block;
+  }
+  
+  .map-button {
+    display: block;
+    background: var(--primary);
+    color: white;
+    text-align: center;
+    padding: 14px;
+    margin: 16px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    width: calc(100% - 40px);
+  }
+</style>
+</head>
+<body>
+
+  <!-- header -->
+  <header class="header">
+    <div class="header-left">
+      <div class="logo" aria-hidden="true">
+        <!-- simple university icon svg -->
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M12 2 2 7l10 5 10-5-10-5zm0 7.5L6 8.25v3.5l6 3.25 6-3.25v-3.5L12 9.5zM4 17v1.5C4 20.43 7.33 22 12 22s8-1.57 8-3.5V17l-8 4-8-4z"/>
+        </svg>
+      </div>
+      <div>
+        <div class="title">أكاديمية طيبة</div>
+        <div class="subtitle">معهد طيبة العالي للحاسب والعلوم الإدارية</div>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <button class="back-btn" onclick="window.history.back()">
+        <span>العودة</span>
+        <span>→</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- content -->
+  <main class="container">
+    <div class="building-image">
+      <img id="buildingImage" src="photo_2025-10-24_04-27-13.jpg" alt="صورة المبنى">
+    </div>
+    
+    <h1 id="buildingTitle" class="building-title">الملعب</h1>
+    
+    <h2 class="section-title">عن هذا المكان</h2>
+    <p id="buildingDescription" class="building-description"> يستخدم هذا الملعب لإقامة الأنشطة الرياضية والمباريات الطلابية وفعاليات الجامعة</p>
+    
+    <h2 class="section-title">الموقع</h2>
+    <p id="buildingLocation" class="location-info">المنطقة الرياضية - جنوب الجامعة</p>
+    
+    <div class="map-container">
+      <div class="map-image">
+        <img id="mapImage" src="photo_2025-10-24_04-27-13.jpg" alt="خريطة الموقع">
+      </div>
+      <button id="openMapBtn" class="map-button">افتح الموقع في الخريطة</button>
+    </div>
+  </main>
+
+</body>
+</html>

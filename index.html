@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>خريطة الجامعة</title>
+
+<style>
+  :root{
+    --primary:#1f5fbf;
+    --card-bg:#ffffff;
+    --muted:#777;
+    --radius:14px;
+  }
+
+  html,body{
+    height:100%;
+    margin:0;
+    padding:0;
+    background:#fafafa;
+    font-family: "Cairo", "Tajawal", system-ui, Arial, sans-serif;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    direction: rtl;
+  }
+
+  /* Header (match screenshot) */
+  .topbar{ background:var(--primary); color:#fff;  padding: 38px 34px 36px; border-bottom-left-radius:22px; border-bottom-right-radius:22px; box-shadow:0 6px 12px rgba(0,0,0,0.12); position:sticky; top:0; z-index:100; }
+  .topbar-row{ display:flex; align-items:center; justify-content:center; position:relative; }
+  .topbar-title{ margin:0; font-size:22px; font-weight:700;}
+  .topbar-sub{ margin:4px 0 0; font-size:15px; opacity:.95; }
+  .left-tools{ position:absolute; left:0; top:50%; transform:translateY(-50%); display:flex; align-items:center; gap:12px; }
+  .icon-btn{ background:transparent; border:0; font-size:18px; cursor:pointer; color:#fff; line-height:1; }
+  .lang-toggle{ background:#ffffff; color:var(--primary); border:0; padding:8px 12px; border-radius:999px; font-size:13px; font-weight:700; cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,0.2); }
+  .brand{ position:absolute; right:14px; top:50%; transform:translateY(-50%); display:flex; align-items:center; gap:12px; }
+  .brand-icon{ width:45px; height:40px; border-radius:50%; background:#fff; color:var(--primary); display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(0,0,0,0.15); font-size:20px; }
+  .brand-text{ display:flex; flex-direction:column; align-items:flex-end; }
+
+  /* Search below header */
+  .search{ display:flex; justify-content:center; margin-top:10px; }
+  .search-bar{ width:92%; max-width:760px; display:flex; align-items:center; gap:8px; background:#fff; border-radius:999px; padding:8px 12px; box-shadow:0 2px 8px rgba(21,30,60,0.10); }
+  .search-bar input{ flex:1; border:none; outline:none; font-size:14px; padding:8px 10px; background:transparent; direction:rtl; }
+  .search-bar .clear-btn, .search-bar .go-btn{ width:28px; height:28px; border:none; background:transparent; cursor:pointer; color:#333; font-size:16px; }
+
+  .container{
+    padding:18px;
+    max-width:920px;
+    margin:0 auto;
+  }
+
+  /* old search styles removed; search is inside header now */
+
+  /* Banner card */
+  .banner{
+    margin:18px auto;
+    max-width:800px;
+    border-radius:var(--radius);
+    background:var(--card-bg);
+    box-shadow:0 8px 20px rgba(15,30,60,0.08);
+    overflow:hidden;
+    position:relative;
+  }
+  .banner .img-wrap{
+    width:100%;
+    height:200px;
+    background:linear-gradient(180deg, #fff 60%, rgba(0,0,0,0.06));
+    position:relative;
+  }
+  .banner img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .banner .overlay-text{
+    position:absolute;
+    left:18px;
+    bottom:18px;
+    right:18px;
+    color:#111;
+    text-align:right;
+    background:linear-gradient(180deg, rgba(255,255,255,0.0), rgba(255,255,255,0.9));
+    padding:12px 14px;
+    border-radius:10px;
+    backdrop-filter: blur(2px);
+  }
+  .banner h2{ margin:0; font-size:20px; font-weight:800; }
+  .banner p{ margin:6px 0 0; color:var(--muted); font-size:13px; }
+
+  /* Quick actions */
+  .section-title{
+    margin:18px 6px 8px;
+    font-size:22px;
+    font-weight:800;
+    color:#111;
+  }
+
+  .quick-actions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    padding: 0 6px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .card{
+    background:var(--card-bg);
+    border-radius:16px;
+    padding:18px 12px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    display:flex;
+    flex-direction: column;
+    gap:12px;
+    align-items:center;
+    cursor:pointer;
+    transition:transform .16s ease, box-shadow .16s ease;
+    min-height:92px;
+    justify-content: center;
+  }
+  .card:hover{ transform:translateY(-4px); box-shadow:0 8px 20px rgba(0,0,0,0.1); }
+  .icon{
+    width:52px; height:52px; border-radius:12px;
+    background:#f4f7ff; display:flex; align-items:center; justify-content:center;
+    font-size:26px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.6);
+    flex-shrink:0;
+  }
+  .card .label{ font-size:16px; font-weight:700; color:#333; text-align:center; }
+
+  /* Discover cards */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 30px;
+  }
+
+  .discover-card {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0;
+    min-width: 0;
+  }
+
+  .discover-card img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+  }
+
+  .discover-card .card-content {
+    padding: 12px;
+  }
+
+  .discover-card h4 {
+    margin: 0 0 6px;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .discover-card p {
+    margin: 0 0 10px;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  .discover-card .tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background-color: #eef6ff;
+    color: var(--primary);
+  }
+
+  .tag-recreation {
+    background-color: #fff0f0 !important;
+    color: #ff6b6b !important;
+  }
+
+  .tag-services {
+    background-color: #f0fff8 !important;
+    color: #20c997 !important;
+  }
+
+  /* responsive */
+  @media (max-width:420px){
+    .banner .img-wrap{ height:170px; }
+    .search input{ padding:12px; }
+    .quick-actions{ padding:0 12px 40px; gap:10px; }
+    .card{ padding:14px 10px; min-height:84px; min-width: 110px; }
+    .icon{ width:48px; height:48px; font-size:24px; }
+  }
+</style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-row">
+      <div class="left-tools">
+        <button id="themeBtn" class="icon-btn" aria-label="تبديل الوضع">🌙</button>
+        <button id="langBtn" class="lang-toggle" aria-label="تبديل اللغة">EN</button>
+      </div>
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">🏛️</div>
+        <div class="brand-text">
+          <h1 id="academyTitle" class="topbar-title">أكاديمية طيبة</h1>
+          <p id="academySubtitle" class="topbar-sub">معهد طيبة العالي للحاسب والعلوم الإدارية</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- content -->
+  <main class="container">
+    <!-- search under header -->
+    <div class="search" role="search" aria-label="بحث">
+      <div class="search-bar">
+        <button class="clear-btn" id="clearSearch" aria-label="مسح">✕</button>
+        <input id="searchInput" type="search" placeholder="...البحث عن المباني، المعامل، الخدمات" aria-label="ابحث عن مكان">
+        <button class="go-btn" id="searchBtn" aria-label="بحث">🔍</button>
+      </div>
+    </div>
+
+    <!-- banner -->
+    <article class="banner" role="banner" aria-label="نظرة عامة على خريطة الحرم">
+      <div class="img-wrap">
+        <img id="mapImage" src="photo_2025-10-24_04-27-13.jpg" alt="خريطة الحرم" onerror="this.style.display='none'; this.parentNode.style.background='linear-gradient(180deg,#eef6ff,#fff)';">
+        <div class="overlay-text">
+          <h2 id="bannerTitle">نظرة عامة على خريطة الحرم الجامعي</h2>
+          <p id="bannerSubtitle">انقر لاستكشاف الحرم الجامعي</p>
+        </div>
+      </div>
+    </article>
+
+    <h3 id="qaTitle" class="section-title">إجراءات سريعة</h3>
+
+    <!-- quick actions -->
+    <section class="quick-actions" aria-label="إجراءات سريعة">
+      <div class="card" data-key="قاعات المحاضرات" tabindex="0" role="button">
+        <div class="icon" aria-hidden="true">📖</div>
+        <div class="label" id="qaLectureHalls">قاعات المحاضرات</div>
+      </div>
+
+      <div class="card" data-key="المباني" tabindex="0" role="button">
+        <div class="icon" aria-hidden="true">🏢</div>
+        <div class="label" id="qaBuildings">المباني</div>
+      </div>
+
+      <div class="card" data-key="مكاتب الموظفين" tabindex="0" role="button">
+        <div class="icon" aria-hidden="true">💼</div>
+        <div class="label" id="qaEmployees">مكاتب الموظفين</div>
+      </div>
+
+      <div class="card" data-key="المعامل" tabindex="0" role="button">
+        <div class="icon" aria-hidden="true">💻</div>
+        <div class="label" id="qaLabs">المعامل</div>
+      </div>
+
+      <div class="card" data-key="مناطق الترفيه" tabindex="0" role="button">
+        <div class="icon" aria-hidden="true">🎯</div>
+        <div class="label" id="qaRecreation">مناطق الترفيه</div>
+      </div>
+
+      <div class="card" data-key="الخدمات" tabindex="0" role="button">
+        <div class="icon" aria-hidden="true">🧭</div>
+        <div class="label" id="qaServices">الخدمات</div>
+      </div>
+    </section>
+
+    <!-- Discover section -->
+    <div style="display:flex; justify-content:space-between; align-items:center; margin:0 6px;">
+      <h3 id="discoverTitle" class="section-title" style="margin-bottom:12px;">اكتشف</h3>
+      <a id="discoverAllLink" href="discover.html" style="font-size:14px; font-weight:600; color:var(--primary); text-decoration:none;">عرض الكل</a>
+    </div>
+
+    <section class="grid" aria-label="اكتشف">
+      <div class="card discover-card" data-key="مبنى الهندسة">
+        <img src="photo_2025-11-06_21-34-08.jpg" alt="مبنى الهندسة">
+        <div class="card-content">
+          <h4 id="engBuildingTitle">مبنى الهندسة</h4>
+          <p>يضم معامل البرمجة وقاعات المحاضرات الخاصة بقسم علوم الحاسب والمحاضرات لمختلف...</p>
+          <span class="tag" id="tagBuildings1">المباني</span>
+        </div>
+      </div>
+      <div class="card discover-card" data-key="مبنى علوم الحاسب">
+        <img src="photo_2025-11-06_21-15-05.jpg" alt="مبنى علوم الحاسب">
+        <div class="card-content">
+          <h4 id="csBuildingTitle">مبنى علوم الحاسب</h4>
+          <p>يحتوي على ورش العمل والمعامل الهندسية وقاعات المحاضرات لمختلف...</p>
+          <span class="tag" id="tagBuildings2">المباني</span>
+        </div>
+      </div>
+      <div class="card discover-card" data-key="الملعب">
+        <img src="photo_2025-11-06_23-43-37.jpg" alt="الملعب">
+        <div class="card-content">
+          <h4 id="playgroundTitle">الملعب</h4>
+          <p>تستخدم الملاعب لممارسة الأنشطة الرياضية والمباريات الطلابية وفعاليات الجامعة.</p>
+          <span class="tag tag-recreation" id="tagRecreation1">مناطق الترفيه</span>
+        </div>
+      </div>
+      <div class="card discover-card" data-key="المكتبة">
+        <img src="photo_2025-11-06_23-44-09.jpg" alt="المكتبة">
+        <div class="card-content">
+          <h4 id="libraryTitle">المكتبة</h4>
+          <p>توفر المكتبة مصادر تعليمية متنوعة تشمل الكتب والمراجع وقاعات المطالعة.</p>
+          <span class="tag tag-services" id="tagServices1">الخدمات</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+<script>
+  // بسيط: بحث يفتح alert بالمفتاح أو يمكن ربطه بملاحة فعلية
+  const searchInput = document.getElementById('searchInput');
+  const searchBtn = document.getElementById('searchBtn');
+  const clearBtn = document.getElementById('clearSearch');
+  const cards = document.querySelectorAll('.card');
+
+  // عند الضغط على زر البحث — نجرب البحث بين أسماء الكروت
+  searchBtn.addEventListener('click', () => {
+    const q = searchInput.value.trim();
+    if(!q){ alert('اكتب اسم المكان أو الفئة للبحث'); return; }
+    const lowered = q.toLowerCase();
+    // نبحث بين الكروت (data-key)
+    let found = null;
+    for(const c of cards){
+      if(c.dataset.key && c.dataset.key.toLowerCase().includes(lowered)){
+        found = c;
+        break;
+      }
+    }
+    if(found){
+      // افكت بصري ثم فتح صفحة أو عرض
+      found.style.transform = 'translateY(-6px) scale(1.02)';
+      setTimeout(()=> found.style.transform = '', 450);
+      // هنا ممكن تنقلي لصفحة معينة أو تعرضي قائمة الأماكن
+      alert('فتح: ' + found.dataset.key);
+    } else {
+      alert('لم يتم العثور على فئة مطابقة');
+    }
+  });
+
+  // زر مسح البحث
+  clearBtn?.addEventListener('click', ()=>{ searchInput.value=''; searchInput.focus(); });
+  // تشغيل البحث عند الضغط على Enter داخل الحقل
+  searchInput?.addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter'){
+      e.preventDefault();
+      searchBtn?.click();
+    }
+  });
+
+  // كل كارد قابل للنقر — يفتح الصفحة المناسبة
+  cards.forEach(c=>{
+    c.addEventListener('click', ()=> {
+      const key = c.dataset.key;
+      // توجيه المستخدم إلى الصفحة المناسبة بناءً على نوع البطاقة
+      if (key === 'قاعات المحاضرات') {
+        window.location.href = 'lecture-halls.html';
+      } else if (key === 'المباني') {
+        window.location.href = 'buildings.html';
+      } else if (key === 'الخدمات') {
+        window.location.href = 'services.html';
+      } else if (key === 'مناطق الترفيه') {
+        window.location.href = 'recreation-areas.html';
+      } else if (key === 'مكاتب الموظفين') {
+        window.location.href = 'employee-offices.html';
+      } else if (key === 'المعامل') {
+        window.location.href = 'labs.html';
+      } else if (key === 'مبنى علوم الحاسب') {
+        window.location.href = 'building-cs.html';
+      } else {
+        // للبطاقات الأخرى التي لم يتم إنشاء صفحات لها بعد
+        alert('سيتم إضافة صفحة ' + key + ' قريباً');
+      }
+    });
+    c.addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter' || e.key === ' ') c.click();
+    });
+  });
+
+  // تبديل اللغة + الاتجاه
+  const langBtn = document.getElementById('langBtn');
+  const themeBtn = document.getElementById('themeBtn');
+
+  const t = {
+    ar: {
+      academyTitle: 'أكاديمية طيبة',
+      academySubtitle: 'معهد طيبة العالي للحاسب والعلوم الإدارية',
+      bannerTitle: 'نظرة عامة على خريطة الحرم الجامعي',
+      bannerSubtitle: 'انقر لاستكشاف الحرم الجامعي',
+      qaTitle: 'إجراءات سريعة',
+      discoverTitle: 'اكتشف',
+      discoverAllLink: 'عرض الكل',
+      searchPlaceholder: 'البحث عن المباني، المعامل، الخدمات...',
+      searchBtn: 'بحث',
+      qaLectureHalls: 'قاعات المحاضرات',
+      qaBuildings: 'المباني',
+      qaEmployees: 'مكاتب الموظفين',
+      qaLabs: 'المعامل',
+      qaRecreation: 'مناطق الترفيه',
+      qaServices: 'الخدمات',
+      engBuildingTitle: 'مبنى الهندسة',
+      csBuildingTitle: 'مبنى علوم الحاسب',
+      playgroundTitle: 'الملعب',
+      libraryTitle: 'المكتبة',
+      tagBuildings: 'المباني',
+      tagRecreation: 'مناطق الترفيه',
+      tagServices: 'الخدمات',
+      langToggleLabel: 'EN'
+    },
+    en: {
+      academyTitle: 'Tiba Academy',
+      academySubtitle: 'Tiba Higher Institute for Computers and Administrative Sciences',
+      bannerTitle: 'Campus Map Overview',
+      bannerSubtitle: 'Click to explore the campus',
+      qaTitle: 'Quick Actions',
+      discoverTitle: 'Discover',
+      discoverAllLink: 'View All',
+      searchPlaceholder: 'Search buildings, labs, services...',
+      searchBtn: 'Search',
+      qaLectureHalls: 'Lecture Halls',
+      qaBuildings: 'Buildings',
+      qaEmployees: 'Employee Offices',
+      qaLabs: 'Labs',
+      qaRecreation: 'Recreation Areas',
+      qaServices: 'Services',
+      engBuildingTitle: 'Engineering Building',
+      csBuildingTitle: 'Computer Science Building',
+      playgroundTitle: 'Playground',
+      libraryTitle: 'Library',
+      tagBuildings: 'Buildings',
+      tagRecreation: 'Recreation',
+      tagServices: 'Services',
+      langToggleLabel: 'ع'
+    }
+  };
+
+  let currentLang = 'ar';
+
+  function applyLang(lang){
+    const tr = t[lang];
+    document.documentElement.lang = lang;
+    document.body.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    // header
+    document.getElementById('academyTitle').textContent = tr.academyTitle;
+    document.getElementById('academySubtitle').textContent = tr.academySubtitle;
+    // banner
+    document.getElementById('bannerTitle').textContent = tr.bannerTitle;
+    document.getElementById('bannerSubtitle').textContent = tr.bannerSubtitle;
+    // sections
+    document.getElementById('qaTitle').textContent = tr.qaTitle;
+    document.getElementById('discoverTitle').textContent = tr.discoverTitle;
+    document.getElementById('discoverAllLink').textContent = tr.discoverAllLink;
+    // search
+    document.getElementById('searchInput').placeholder = tr.searchPlaceholder;
+    // نحافظ على أيقونة زر البحث كما هي
+    // quick actions labels
+    document.getElementById('qaLectureHalls').textContent = tr.qaLectureHalls;
+    document.getElementById('qaBuildings').textContent = tr.qaBuildings;
+    document.getElementById('qaEmployees').textContent = tr.qaEmployees;
+    document.getElementById('qaLabs').textContent = tr.qaLabs;
+    document.getElementById('qaRecreation').textContent = tr.qaRecreation;
+    document.getElementById('qaServices').textContent = tr.qaServices;
+    // discover cards titles
+    document.getElementById('engBuildingTitle').textContent = tr.engBuildingTitle;
+    document.getElementById('csBuildingTitle').textContent = tr.csBuildingTitle;
+    document.getElementById('playgroundTitle').textContent = tr.playgroundTitle;
+    document.getElementById('libraryTitle').textContent = tr.libraryTitle;
+    // tags
+    document.getElementById('tagBuildings1').textContent = tr.tagBuildings;
+    document.getElementById('tagBuildings2').textContent = tr.tagBuildings;
+    document.getElementById('tagRecreation1').textContent = tr.tagRecreation;
+    document.getElementById('tagServices1').textContent = tr.tagServices;
+    // toggle label
+    document.getElementById('langBtn').textContent = tr.langToggleLabel;
+  }
+
+  langBtn.addEventListener('click', () => {
+    currentLang = currentLang === 'ar' ? 'en' : 'ar';
+    applyLang(currentLang);
+  });
+
+  // الوضع الليلي كما هو
+  let dark = false;
+  themeBtn.addEventListener('click', ()=>{
+    dark = !dark;
+    if(dark){
+      document.documentElement.style.setProperty('--primary', '#0b3b6f');
+      document.body.style.background = '#0f1724';
+      document.querySelectorAll('.card').forEach(x => x.style.background = '#0b1220');
+      themeBtn.textContent = '☀️';
+    } else {
+      document.documentElement.style.setProperty('--primary','#1f5fbf');
+      document.body.style.background = '#fafafa';
+      document.querySelectorAll('.card').forEach(x => x.style.background = '');
+      themeBtn.textContent = '🌙';
+    }
+  });
+
+  // تطبيق اللغة الافتراضية عند التحميل
+  applyLang(currentLang);
+
+</script>
+</body>
+</html>

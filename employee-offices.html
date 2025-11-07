@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مكاتب الموظفين</title>
+    <style>
+        :root{ --primary:#1f5fbf; }
+        body { font-family: 'Cairo', 'Tajawal', system-ui, Arial, sans-serif; margin:0; background:#f5f5f5; }
+
+        /* Topbar (matching screenshot) */
+        .topbar{ background:var(--primary); color:#fff; padding:14px 18px 22px; border-bottom-left-radius:22px; border-bottom-right-radius:22px; box-shadow:0 6px 12px rgba(0,0,0,0.12); position:sticky; top:0; z-index:100; }
+        .topbar-row{ display:flex; align-items:center; justify-content:center; position:relative; }
+        .topbar-title{ font-size:22px; font-weight:700; margin:0; }
+        .back-circle{ position:absolute; right:0; top:50%; transform:translateY(-50%); width:38px; height:38px; border-radius:50%; background:#fff; color:var(--primary); border:none; box-shadow:0 2px 8px rgba(0,0,0,0.15); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:18px; }
+
+        /* Header search */
+        .header-search{ display:flex; justify-content:center; margin-top:10px; }
+        .search-bar{ width:92%; max-width:760px; display:flex; align-items:center; gap:8px; background:#fff; border-radius:999px; padding:8px 12px; box-shadow:0 2px 8px rgba(21,30,60,0.10); }
+        .search-bar input{ flex:1; border:none; outline:none; font-size:14px; padding:8px 10px; direction:rtl; }
+        .search-bar .clear-btn, .search-bar .go-btn{ width:28px; height:28px; border:none; background:transparent; cursor:pointer; color:#333; font-size:16px; }
+
+        /* Empty state */
+        .empty-state { text-align:center; padding:50px 20px; color:#555; }
+        .empty-state-icon { width:100px; height:100px; margin:0 auto 20px; position:relative; border:4px solid var(--primary); border-radius:8px; background:#e8eaf6; overflow:hidden; }
+        .empty-state-icon::before, .empty-state-icon::after { content:''; position:absolute; width:80%; height:20px; left:10%; background:var(--primary); border-radius:4px; animation: drawer 2.5s ease-in-out infinite; }
+        .empty-state-icon::before { top:20px; }
+        .empty-state-icon::after { bottom:20px; animation-delay:.2s; }
+        @keyframes drawer { 0%,100%{ transform:translateY(0);} 20%,80%{ transform:translateY(-15px);} 40%,60%{ transform:translateY(0);} }
+        .empty-state-text { font-size:18px; }
+    </style>
+</head>
+<body>
+
+    <!-- header (matching screenshot) -->
+    <header class="topbar">
+      <div class="topbar-row">
+        <button class="back-circle" onclick="window.location.href='index.html'" aria-label="رجوع">⟵</button>
+        <h1 class="topbar-title">مكاتب الموظفين</h1>
+      </div>
+      <div class="header-search" role="search" aria-label="بحث">
+        <div class="search-bar">
+          <button class="clear-btn" id="clearSearch" aria-label="مسح">✕</button>
+          <input id="searchInput" type="search" placeholder="...البحث عن المباني، المعامل، الخدمات" aria-label="ابحث">
+          <button class="go-btn" id="searchBtn" aria-label="بحث">🔍</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="empty-state">
+        <div class="empty-state-icon"></div>
+        <div class="empty-state-text">لا توجد عناصر متاحة.</div>
+    </div>
+
+    <script>
+      // تفعيل أزرار البحث والمسح بشكل بسيط
+      const searchInput = document.getElementById('searchInput');
+      const searchBtn = document.getElementById('searchBtn');
+      const clearBtn = document.getElementById('clearSearch');
+      clearBtn?.addEventListener('click', ()=>{ searchInput.value=''; searchInput.focus(); });
+      searchBtn?.addEventListener('click', ()=>{
+        const q = searchInput.value.trim();
+        if(!q){ alert('اكتب كلمة للبحث'); return; }
+        alert('بحث عن: '+q);
+      });
+    </script>
+
+</body>
+</html>

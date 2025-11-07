@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>اكتشف - خريطة الجامعة</title>
+
+<style>
+  :root{
+    --primary:#1f5fbf;
+    --card-bg:#ffffff;
+    --muted:#777;
+    --radius:14px;
+  }
+
+  html,body{
+    height:100%;
+    margin:0;
+    padding:0;
+    background:#fafafa;
+    font-family: "Cairo", "Tajawal", system-ui, Arial, sans-serif;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    direction: rtl;
+  }
+
+  /* Header */
+  .header{
+    background:var(--primary);
+    color:#fff;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    justify-content:space-between;
+  }
+  .header-left{ display:flex; align-items:center; gap:10px; }
+  .title{
+    font-size:18px;
+    font-weight:700;
+    line-height:1;
+  }
+  .header-right{ display:flex; align-items:center; gap:14px; }
+
+  /* Search */
+  .container{
+    padding:18px;
+    max-width:920px;
+    margin:0 auto;
+  }
+
+  .search{
+    display:flex;
+    justify-content:center;
+    margin-top:12px;
+  }
+  .search .box{
+    width:100%;
+    max-width:760px;
+    display:flex;
+    gap:8px;
+    align-items:center;
+  }
+  .search input{
+    flex:1;
+    padding:14px 16px;
+    border-radius:999px;
+    border:1px solid #e2e8f0;
+    outline:none;
+    font-size:14px;
+    box-shadow: 0 2px 8px rgba(21,30,60,0.04);
+    background:#fff;
+    direction: rtl;
+  }
+  .search button{
+    background:var(--primary);
+    color:#fff;
+    border:none;
+    padding:10px 14px;
+    border-radius:999px;
+    cursor:pointer;
+    font-weight:600;
+  }
+
+  /* Grid */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    padding:0 6px 30px;
+    max-width:800px;
+    margin:0 auto 60px;
+  }
+  .card{
+    background:var(--card-bg);
+    border-radius:12px;
+    padding:0;
+    box-shadow:0 6px 18px rgba(15,30,60,0.06);
+    display:flex;
+    flex-direction: column;
+    align-items: stretch;
+    cursor:pointer;
+    transition:transform .16s ease, box-shadow .16s ease;
+  }
+  .card:hover{ transform:translateY(-6px); box-shadow:0 10px 26px rgba(15,30,60,0.09); }
+
+  .card img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .card .card-content {
+    padding: 12px;
+  }
+
+  .card h4 {
+    margin: 0 0 6px;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .card p {
+    margin: 0 0 10px;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  .card .tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background-color: #eef6ff;
+    color: var(--primary);
+  }
+
+  /* responsive */
+  @media (max-width:420px){
+    .search input{ padding:12px; }
+    .grid{ padding:0 12px 40px; gap:10px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- header -->
+  <header class="header">
+    <div class="header-left">
+      <a href="index.html" style="color:inherit; text-decoration:none; display:flex; align-items:center; gap:10px;">
+        <div class="title">اكتشف</div>
+      </a>
+    </div>
+    <div class="header-right">
+      <a href="index.html" style="color:#fff; font-size:24px; text-decoration:none;">&times;</a>
+    </div>
+  </header>
+
+  <!-- content -->
+  <main class="container">
+    <!-- search -->
+    <div class="search" role="search" aria-label="بحث">
+      <div class="box">
+        <input id="searchInput" type="search" placeholder="البحث عن المباني، المعامل، الخدمات..." aria-label="ابحث عن مكان">
+        <button id="searchBtn" aria-label="بحث">بحث</button>
+      </div>
+    </div>
+
+    <!-- discover grid -->
+    <section class="grid" aria-label="اكتشف">
+      <div class="card" data-key="مبنى الهندسة">
+        <img src="photo_2025-11-06_21-34-08.jpg" alt="مبنى الهندسة">
+        <div class="card-content">
+          <h4>مبنى الهندسة</h4>
+          <p>يضم معامل البرمجة وقاعات المحاضرات الخاصة بقسم علوم الحاسب والمحاضرات لمختلف...</p>
+          <span class="tag">المباني</span>
+        </div>
+      </div>
+      <div class="card" data-key="مبنى علوم الحاسب">
+        <img src="photo_2025-11-06_21-15-05.jpg" alt="مبنى علوم الحاسب">
+        <div class="card-content">
+          <h4>مبنى علوم الحاسب</h4>
+          <p>يحتوي على ورش العمل والمعامل الهندسية وقاعات المحاضرات لمختلف...</p>
+          <span class="tag">المباني</span>
+        </div>
+      </div>
+      <div class="card" data-key="الملعب">
+        <img src="photo_2025-11-06_23-43-37.jpg" alt="الملعب">
+        <div class="card-content">
+          <h4>الملعب</h4>
+          <p>تستخدم الملاعب لممارسة الأنشطة الرياضية والمباريات الطلابية وفعاليات الجامعة.</p>
+          <span class="tag">مناطق الترفيه</span>
+        </div>
+      </div>
+      <div class="card" data-key="المكتبة">
+        <img src="photo_2025-11-06_23-44-09.jpg" alt="المكتبة">
+        <div class="card-content">
+          <h4>المكتبة</h4>
+          <p>توفر المكتبة مصادر تعليمية متنوعة تشمل الكتب والمراجع وقاعات المطالعة.</p>
+          <span class="tag">الخدمات</span>
+        </div>
+      </div>
+      <div class="card" data-key="مدرج ابن خلدون">
+        <img src="photo_2025-11-06_23-44-15.jpg" alt="مدرج ابن خلدون">
+        <div class="card-content">
+          <h4>مدرج ابن خلدون</h4>
+          <p>يعد مدرج ابن خلدون أحد أكبر القاعات المخصصة للمحاضرات والفعاليات الكبرى.</p>
+          <span class="tag">قاعات المحاضرات</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+<script>
+  // Simple search functionality
+  const searchInput = document.getElementById('searchInput');
+  const searchBtn = document.getElementById('searchBtn');
+  const cards = document.querySelectorAll('.card');
+
+  function filterCards() {
+    const q = searchInput.value.trim().toLowerCase();
+    cards.forEach(card => {
+      const key = card.dataset.key.toLowerCase();
+      const content = card.textContent.toLowerCase();
+      if (key.includes(q) || content.includes(q)) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  searchBtn.addEventListener('click', filterCards);
+  searchInput.addEventListener('input', filterCards);
+
+  // Card click navigation (optional)
+  cards.forEach(c=>{
+    c.addEventListener('click', ()=> {
+      const key = c.dataset.key;
+      if (key === 'مبنى علوم الحاسب') {
+        window.location.href = 'building-cs.html';
+      } else {
+        // You can add navigation logic here if needed
+        alert('فتح: ' + key);
+      }
+    });
+  });
+</script>
+</body>
+</html>
