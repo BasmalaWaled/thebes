@@ -150,14 +150,16 @@
     }
   }
 </style>
+<link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body data-page="lectureHalls">
 
   <!-- header (matching screenshot) -->
   <header class="topbar">
     <div class="topbar-row">
       <button class="back-circle" onclick="window.location.href='index.html'" aria-label="رجوع">⟵</button>
-      <h1 class="topbar-title">قاعات المحاضرات</h1>
+      <h1 id="pageTitle" class="topbar-title">قاعات المحاضرات</h1>
+      
     </div>
     <div class="header-search" role="search" aria-label="بحث">
       <div class="search-bar">
@@ -231,5 +233,6 @@
     searchInput.focus();
   });
 </script>
+<script src="app.js"></script>
 </body>
 </html>

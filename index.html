@@ -195,8 +195,9 @@
     .icon{ width:48px; height:48px; font-size:24px; }
   }
 </style>
+<link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body data-page="index">
 
   <header class="topbar">
     <div class="topbar-row">
@@ -441,7 +442,7 @@
     }
   };
 
-  let currentLang = 'ar';
+  let currentLang = localStorage.getItem('lang') || 'ar';
 
   function applyLang(lang){
     const tr = t[lang];
@@ -483,13 +484,30 @@
 
   langBtn.addEventListener('click', () => {
     currentLang = currentLang === 'ar' ? 'en' : 'ar';
+    localStorage.setItem('lang', currentLang);
     applyLang(currentLang);
   });
 
   // الوضع الليلي كما هو
-  let dark = false;
+  let dark = (localStorage.getItem('theme') || 'light') === 'dark';
+  // Apply theme on load
+  (function applyTheme(){
+    if(dark){
+      document.documentElement.style.setProperty('--primary', '#0b3b6f');
+      document.body.style.background = '#0f1724';
+      document.querySelectorAll('.card').forEach(x => x.style.background = '#0b1220');
+      themeBtn.textContent = '☀️';
+    } else {
+      document.documentElement.style.setProperty('--primary','#1f5fbf');
+      document.body.style.background = '#fafafa';
+      document.querySelectorAll('.card').forEach(x => x.style.background = '');
+      themeBtn.textContent = '🌙';
+    }
+  })();
+
   themeBtn.addEventListener('click', ()=>{
     dark = !dark;
+    localStorage.setItem('theme', dark ? 'dark' : 'light');
     if(dark){
       document.documentElement.style.setProperty('--primary', '#0b3b6f');
       document.body.style.background = '#0f1724';
@@ -506,6 +524,28 @@
   // تطبيق اللغة الافتراضية عند التحميل
   applyLang(currentLang);
 
+  // استمعي لتغيير المفاتيح من صفحات أخرى وطبّقيها مباشرة هنا
+  window.addEventListener('storage', (e)=>{
+    if(e.key === 'lang'){
+      currentLang = localStorage.getItem('lang') || 'ar';
+      applyLang(currentLang);
+    } else if(e.key === 'theme'){
+      dark = (localStorage.getItem('theme') || 'light') === 'dark';
+      if(dark){
+        document.documentElement.style.setProperty('--primary', '#0b3b6f');
+        document.body.style.background = '#0f1724';
+        document.querySelectorAll('.card').forEach(x => x.style.background = '#0b1220');
+        themeBtn.textContent = '☀️';
+      } else {
+        document.documentElement.style.setProperty('--primary','#1f5fbf');
+        document.body.style.background = '#fafafa';
+        document.querySelectorAll('.card').forEach(x => x.style.background = '');
+        themeBtn.textContent = '🌙';
+      }
+    }
+  });
+
 </script>
+<script src="app.js"></script>
 </body>
 </html>

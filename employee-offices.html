@@ -28,15 +28,17 @@
         .empty-state-icon::after { bottom:20px; animation-delay:.2s; }
         @keyframes drawer { 0%,100%{ transform:translateY(0);} 20%,80%{ transform:translateY(-15px);} 40%,60%{ transform:translateY(0);} }
         .empty-state-text { font-size:18px; }
-    </style>
+</style>
+<link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body data-page="employeeOffices">
 
     <!-- header (matching screenshot) -->
     <header class="topbar">
       <div class="topbar-row">
         <button class="back-circle" onclick="window.location.href='index.html'" aria-label="رجوع">⟵</button>
-        <h1 class="topbar-title">مكاتب الموظفين</h1>
+        <h1 id="pageTitle" class="topbar-title">مكاتب الموظفين</h1>
+          
       </div>
       <div class="header-search" role="search" aria-label="بحث">
         <div class="search-bar">
@@ -64,6 +66,7 @@
         alert('بحث عن: '+q);
       });
     </script>
+    <script src="app.js"></script>
 
 </body>
 </html>

@@ -147,8 +147,10 @@
     width: calc(100% - 40px);
   }
 </style>
+<link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body data-page="buildingDetails">
+  
 
 
   <!-- content -->
@@ -159,10 +161,10 @@
     
     <h1 id="buildingTitle" class="building-title">مبنى علوم الحاسب</h1>
     
-    <h2 class="section-title">عن هذا المكان</h2>
+    <h2 id="aboutTitle" class="section-title">عن هذا المكان</h2>
     <p id="buildingDescription" class="building-description">يضم معامل البرمجة وقاعات المحاضرات الخاصة بقسم علوم الحاسب ومكاتب الأساتذة والمعامل الذكية.</p>
     
-    <h2 class="section-title">الموقع</h2>
+    <h2 id="locTitle" class="section-title">الموقع</h2>
     <p id="buildingLocation" class="location-info">المنطقة الأكاديمية - المنطقة C بجوار مبنى الهندسة</p>
     
     <div class="map-container">
@@ -188,30 +190,42 @@
     // بيانات المباني (يمكن استبدالها بطلب API حقيقي)
     const buildings = {
       'computer-science': {
-        title: 'مبنى علوم الحاسب',
-        description: 'يضم معامل البرمجة وقاعات المحاضرات الخاصة بقسم علوم الحاسب ومكاتب الأساتذة والمعامل الذكية.',
-        location: 'المنطقة الأكاديمية - المنطقة C بجوار مبنى الهندسة',
+        title_ar: 'مبنى علوم الحاسب',
+        title_en: 'Computer Science Building',
+        description_ar: 'يضم معامل البرمجة وقاعات المحاضرات الخاصة بقسم علوم الحاسب ومكاتب الأساتذة والمعامل الذكية.',
+        description_en: 'Includes programming labs, CS lecture halls, faculty offices, and smart labs.',
+        location_ar: 'المنطقة الأكاديمية - المنطقة C بجوار مبنى الهندسة',
+        location_en: 'Academic zone - Area C next to the Engineering building',
         image: 'photo_2025-11-06_21-15-05.jpg',
         mapImage: 'photo_2025-10-24_04-27-13.jpg'
       },
       'engineering': {
-        title: 'مبنى الهندسة',
-        description: 'يحتوي على ورش العمل والمعامل المختلفة وقاعات المحاضرات الهندسية المتخصصة.',
-        location: 'المنطقة الأكاديمية - المنطقة C',
+        title_ar: 'مبنى الهندسة',
+        title_en: 'Engineering Building',
+        description_ar: 'يحتوي على ورش العمل والمعامل المختلفة وقاعات المحاضرات الهندسية المتخصصة.',
+        description_en: 'Houses workshops, various labs, and specialized engineering lecture halls.',
+        location_ar: 'المنطقة الأكاديمية - المنطقة C',
+        location_en: 'Academic zone - Area C',
         image: 'photo_2025-11-06_21-34-08.jpg',
         mapImage: 'photo_2025-10-24_04-27-13.jpg'
       },
       'admin': {
-        title: 'المبنى الإداري',
-        description: 'يضم مكاتب الإدارة وشؤون الطلاب والتسجيل وقاعات الاجتماعات.',
-        location: 'المنطقة الإدارية - المدخل الرئيسي',
+        title_ar: 'المبنى الإداري',
+        title_en: 'Administrative Building',
+        description_ar: 'يضم مكاتب الإدارة وشؤون الطلاب والتسجيل وقاعات الاجتماعات.',
+        description_en: 'Includes administration offices, student affairs, registration, and meeting rooms.',
+        location_ar: 'المنطقة الإدارية - المدخل الرئيسي',
+        location_en: 'Administrative area - Main entrance',
         image: 'photo_2025-10-24_04-27-13.jpg',
         mapImage: 'photo_2025-10-24_04-27-13.jpg'
       },
       'activities': {
-        title: 'مبنى الأنشطة الطلابية',
-        description: 'يضم قاعات الأنشطة والمسرح والصالات الرياضية ومراكز الأنشطة الطلابية.',
-        location: 'المنطقة الترفيهية - بجوار الملاعب',
+        title_ar: 'مبنى الأنشطة الطلابية',
+        title_en: 'Student Activities Building',
+        description_ar: 'يضم قاعات الأنشطة والمسرح والصالات الرياضية ومراكز الأنشطة الطلابية.',
+        description_en: 'Includes activity halls, theater, sports arenas, and student activity centers.',
+        location_ar: 'المنطقة الترفيهية - بجوار الملاعب',
+        location_en: 'Recreation area - Next to the playgrounds',
         image: 'photo_2025-10-24_04-27-13.jpg',
         mapImage: 'photo_2025-10-24_04-27-13.jpg'
       }
@@ -220,13 +234,15 @@
     // الحصول على بيانات المبنى المحدد
     const building = buildings[buildingId];
     if (building) {
-      // تحديث عناصر الصفحة بالبيانات
-      document.getElementById('buildingTitle').textContent = building.title;
-      document.getElementById('buildingDescription').textContent = building.description;
-      document.getElementById('buildingLocation').textContent = building.location;
+      const lang = localStorage.getItem('lang') || 'ar';
+      document.getElementById('buildingTitle').textContent = lang==='ar'? building.title_ar : building.title_en;
+      document.getElementById('buildingDescription').textContent = lang==='ar'? building.description_ar : building.description_en;
+      document.getElementById('buildingLocation').textContent = lang==='ar'? building.location_ar : building.location_en;
       document.getElementById('buildingImage').src = building.image;
       document.getElementById('mapImage').src = building.mapImage;
-      document.title = building.title + ' - خريطة الجامعة';
+      document.title = (lang==='ar'? building.title_ar : building.title_en) + ' - خريطة الجامعة';
+      // expose for app.js to re-translate when toggled
+      window.currentBuildingData = building;
     }
   });
   
@@ -236,5 +252,6 @@
     alert('سيتم فتح الموقع في الخريطة قريباً');
   });
 </script>
+<script src="app.js"></script>
 </body>
 </html>
