@@ -36,6 +36,13 @@ button, .back-circle, .back-btn { min-height: 40px; }
   .left-tools { gap: 8px; }
   .lang-toggle { padding: 6px 10px; font-size: 12px; }
   .icon-btn { font-size: 16px; }
+  .topbar-row { justify-content: center; }
+  /* Make brand block centered and non-absolute on phones */
+  .brand { position: static; margin: 0 auto; justify-content: center; width: 100%; }
+  .brand-text { align-items: center; text-align: center; }
+  .brand-icon { width: 30px; height: 30px; font-size: 16px; }
+  /* Clamp subtitle to one line to avoid tall header */
+  .topbar-sub { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
   /* Search spacing under header */
   .search, .header-search { margin-top: 8px; }
