@@ -2,6 +2,8 @@
 (function(){
   const langStorageKey = 'lang';
   const themeStorageKey = 'theme';
+  // Central toggle to enable/disable opening external map links
+  const MAPS_ENABLED = false;
 
   let lang = localStorage.getItem(langStorageKey) || 'ar';
   let theme = localStorage.getItem(themeStorageKey) || 'light';
@@ -190,6 +192,36 @@
         applyTheme();
       }
     });
+
+    // Global: open location in Google Maps for detail pages
+    const openMapBtn = document.getElementById('openMapBtn');
+    if(openMapBtn){
+      openMapBtn.addEventListener('click', (ev)=>{
+        ev.preventDefault();
+        if(!MAPS_ENABLED){
+          // Do nothing for now – map opening is disabled globally
+          return;
+        }
+        const currentLang = document.documentElement.lang || 'ar';
+        let query = '';
+        // Prefer structured data if available
+        const data = window.currentBuildingData;
+        if(data){
+          const title = currentLang === 'ar' ? data.title_ar : data.title_en;
+          const loc = currentLang === 'ar' ? (data.location_ar || '') : (data.location_en || '');
+          query = `${title} ${loc}`.trim();
+        } else {
+          const titleEl = document.getElementById('buildingTitle');
+          const locEl = document.getElementById('buildingLocation');
+          const title = titleEl ? titleEl.textContent.trim() : '';
+          const loc = locEl ? locEl.textContent.trim() : '';
+          query = `${title} ${loc}`.trim();
+        }
+        if(!query){ query = currentLang === 'ar' ? 'أكاديمية طيبة' : 'Tiba Academy'; }
+        const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+        window.open(url, '_blank');
+      }, { once: false });
+    }
   }
 
   document.addEventListener('DOMContentLoaded', init);

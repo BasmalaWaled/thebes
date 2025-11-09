@@ -29,6 +29,10 @@ button, .back-circle, .back-btn { min-height: 40px; }
   object-fit: cover;
 }
 
+/* Make Discover cards full-bleed image: remove outer padding on the card */
+.discover-card { padding: 0 !important; overflow: hidden; }
+.discover-card .card-content { padding: 12px 12px 14px; }
+
 /* Mobile header/navbar adjustments */
 @media (max-width: 480px) {
   /* Generic header in discover.html */
@@ -69,4 +73,24 @@ button, .back-circle, .back-btn { min-height: 40px; }
 
   /* Make Discover on index two columns on phones */
   body[data-page="index"] .grid { grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* Mobile: make primary action buttons full-width and comfy */
+  .action-button, .map-button {
+    width: calc(100% - 32px);
+    margin: 12px auto 0;
+    padding: 14px 16px;
+    font-size: 16px;
+    border-radius: 12px;
+  }
+}
+
+/* Tablet: slightly wider buttons with balanced padding */
+@media (min-width: 481px) and (max-width: 768px) {
+  .action-button, .map-button {
+    width: 70%;
+    margin: 16px auto 0;
+    padding: 16px 18px;
+    font-size: 17px;
+    border-radius: 14px;
+  }
 }

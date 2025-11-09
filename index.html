@@ -336,11 +336,15 @@
       }
     }
     if(found){
-      // افكت بصري ثم فتح صفحة أو عرض
+      // افكت بصري بسيط ثم الانتقال لنفس صفحة الكارت
       found.style.transform = 'translateY(-6px) scale(1.02)';
-      setTimeout(()=> found.style.transform = '', 450);
-      // هنا ممكن تنقلي لصفحة معينة أو تعرضي قائمة الأماكن
-      alert('فتح: ' + found.dataset.key);
+      setTimeout(()=> {
+        found.style.transform = '';
+        // استخدمي كليك الكارت ليفتح الصفحة المناسبة بحسب المفتاح
+        found.click();
+      }, 300);
+      // مرئيًا وُضّحي الكارت المطلوب
+      found.scrollIntoView({ behavior: 'smooth', block: 'center' });
     } else {
       alert('لم يتم العثور على فئة مطابقة');
     }
