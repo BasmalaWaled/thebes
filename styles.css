@@ -50,4 +50,12 @@ button, .back-circle, .back-btn { min-height: 40px; }
   /* Slightly taller ratio on very small screens for better readability */
   .card > img,
   .grid .card > img { aspect-ratio: 4/3; }
+
+  /* Prevent overlap: left tools vs brand block */
+  .topbar-row { position: relative; min-height: 56px; }
+  .left-tools { position: absolute; left: 8px; top: 10px; transform: none; gap: 6px; }
+  .lang-toggle { padding: 4px 8px; font-size: 11px; }
+  .icon-btn { font-size: 14px; }
+  .topbar-title { font-size: 20px; }
+  .topbar-sub { font-size: 12px; max-width: 85%; margin-top: 2px; }
 }
