@@ -5,3 +5,42 @@ img { max-width: 100%; height: auto; display: block; }
 
 /* Optional utility: ensure touch targets are usable without changing layout */
 button, .back-circle, .back-btn { min-height: 40px; }
+
+/* Card images: make them fill card width and keep aspect ratio */
+.card > img,
+.grid .card > img {
+  width: 100%;
+  height: auto;
+  display: block;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+}
+
+/* Ensure wrapper pattern (card-image) also covers the container */
+.card .card-image img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Mobile header/navbar adjustments */
+@media (max-width: 480px) {
+  /* Generic header in discover.html */
+  .header { padding: 12px 14px; border-bottom-left-radius: 18px; border-bottom-right-radius: 18px; }
+  .header .title { font-size: clamp(16px, 5vw, 18px); }
+  .header-right a { font-size: 22px; }
+
+  /* Topbar used in index and category pages */
+  .topbar { padding: 16px 14px 18px; border-bottom-left-radius: 18px; border-bottom-right-radius: 18px; }
+  .topbar-title { font-size: clamp(18px, 5vw, 22px); }
+  .topbar-sub { font-size: clamp(12px, 3.6vw, 15px); }
+  .brand-icon { width: 36px; height: 36px; font-size: 18px; }
+  .left-tools { gap: 8px; }
+  .lang-toggle { padding: 6px 10px; font-size: 12px; }
+  .icon-btn { font-size: 16px; }
+
+  /* Search spacing under header */
+  .search, .header-search { margin-top: 8px; }
+
+  /* Slightly taller ratio on very small screens for better readability */
+  .card > img,
+  .grid .card > img { aspect-ratio: 4/3; }
+}
